@@ -8,6 +8,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npm install
+   firebase-auth
+   firebase-storage(arquivos)
+   firebase-firestore (banco)
+   nativebase
+   
    ```
 
 2. Start the app
