@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { AppNavigator } from './app/navigation/AppNavigator';
 import { LogBox } from 'react-native';
 
@@ -6,5 +7,9 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
 
 export default function App() {
-  return <AppNavigator />;
-} 
+  return (
+   
+      <AppNavigator />
+    
+  );
+}

@@ -1,15 +1,11 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-import Login from '../../src/screens/Login/Index';
-import Feed from '../../src/screens/Home/Index'
+import React from 'react';
+import { View } from 'react-native';
+import { Stack } from 'expo-router';
+
 export default function HomeScreen() {
   return (
-    <Feed />
+    <View style={{ flex: 1 }}>
+      {/* Seu conteúdo aqui */}
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-});
