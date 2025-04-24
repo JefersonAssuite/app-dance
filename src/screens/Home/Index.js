@@ -5,7 +5,8 @@ import { Feather } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
 import { auth, db } from '../../../services/FirebaseConfig';
 import { collection, onSnapshot } from "firebase/firestore";
-
+import { LinearGradient } from 'expo-linear-gradient';
+import  BibliotecaCard from '../component/LibraryCard'
 
 function HomeContent() {
     const router = useRouter();
@@ -65,39 +66,21 @@ function HomeContent() {
                         <Text>Nenhuma biblioteca encontrada.</Text>
                     ) : (
                         <FlatList
-                            data={aulasDeDanca}
-                            keyExtractor={(item) => item.id}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{ paddingHorizontal: 10 }}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => router.push(`/library-videos/${item.id}`)}>
-                                <Box 
-                                    w={350} 
-                                    h={450} 
-                                    bg="gray.200" 
-                                    rounded="lg" 
-                                    overflow="hidden" 
-                                    mr={4}
-                                    shadow={2} 
-                                    alignItems="center"
-                                >
-                                    <Image 
-                                        source={{ uri: item.imageUrl }} 
-                                        alt={item.nome || "Imagem da biblioteca"} 
-                                        w="100%" 
-                                        h={400} 
-                                        resizeMode="cover"
-                                        roundedTop="lg"
-                                    />
-                                    <Text fontSize="md" fontWeight="bold" mt={2} textAlign="center">
-                                        {item.nome || "Sem nome"}
-                                    </Text>
-                                </Box>
-                            </TouchableOpacity>
-                            )}
-                        />
-                    )}
+                        data={aulasDeDanca}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingHorizontal: 10 }}
+                        renderItem={({ item }) => (
+                          <BibliotecaCard
+                            item={item}
+                            onPress={() => router.push(`/library-videos/${item.id}`)}
+                            size="large"
+                          />
+                        )}
+                      /> )}
+                     
+               
                 </Box>
 
                 {/* Seção de Alongamento e Exercícios */}
@@ -107,65 +90,46 @@ function HomeContent() {
                         <Text>Nenhuma biblioteca encontrada.</Text>
                     ) : (
                         <FlatList
-                            data={alongamentoEExercicios}
-                            keyExtractor={(item) => item.id}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{ paddingHorizontal: 10 }}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => router.push(`/library-videos/${item.id}`)}>
-                                    <Box 
-                                        w={300} 
-                                        h={150} 
-                                        bg="gray.200" 
-                                        rounded="lg" 
-                                        overflow="hidden" 
-                                        mr={4}
-                                        shadow={2} 
-                                        alignItems="center"
-                                    >
-                                        <Image 
-                                            source={{ uri: item.imageUrl }} 
-                                            alt={item.nome || "Imagem da biblioteca"} 
-                                            w="100%" 
-                                            h={400} 
-                                            resizeMode="cover"
-                                            roundedTop="lg"
-                                        />
-                                        <Text fontSize="md" fontWeight="bold" mt={2} textAlign="center">
-                                            {item.nome || "Sem nome"}
-                                        </Text>
-                                    </Box>
-                                </TouchableOpacity>
-                            )}
+                        data={alongamentoEExercicios}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingHorizontal: 10 }}
+                        renderItem={({ item }) => (
+                            <BibliotecaCard
+                            item={item}
+                            onPress={() => router.push(`/library-videos/${item.id}`)}
+                            size="small"
+                            />
+                        )}
                         />
                     )}
                 </Box>
 
                 <Box p={4} pt={4}>
-            <Text fontSize="lg" fontWeight="bold" mb={4}>Novidades da Semana</Text>
-            {messages.length === 0 ? (
-                <Text>Nenhuma mensagem encontrada.</Text>
-            ) : (
-        <FlatList
-            data={messages}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-                <Box 
-                    p={4} 
-                    mb={4} 
-                    bg="gray.100" 
-                    rounded="lg" 
-                    shadow={2}
-                >
-                    <Text fontWeight="bold" fontSize="md">{item.user_name}</Text>
-                    <Text>{item.message}</Text>
-                    <Text fontSize="sm" color="gray.500">{new Date(item.created_at.seconds * 1000).toLocaleString()}</Text>
-                </Box>
+                        <Text fontSize="lg" fontWeight="bold" mb={4}>Novidades da Semana</Text>
+                        {messages.length === 0 ? (
+                            <Text>Nenhuma mensagem encontrada.</Text>
+                        ) : (
+                    <FlatList
+                        data={messages}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                            <Box 
+                                p={4} 
+                                mb={4} 
+                                bg="gray.100" 
+                                rounded="lg" 
+                                shadow={2}
+                            >
+                                <Text fontWeight="bold" fontSize="md">{item.user_name}</Text>
+                                <Text>{item.message}</Text>
+                                <Text fontSize="sm" color="gray.500">{new Date(item.created_at.seconds * 1000).toLocaleString()}</Text>
+                            </Box>
             )}
         />
     )}
-</Box>
+                </Box>
 
 
             </ScrollView>
