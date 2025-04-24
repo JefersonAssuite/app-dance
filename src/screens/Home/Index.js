@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, SafeAreaView } from 'react-native';
 import { Box, HStack, Icon, Pressable, Avatar, FlatList, Text, Image, ScrollView } from 'native-base';
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
 import { auth, db } from '../../../services/FirebaseConfig';
 import { collection, onSnapshot } from "firebase/firestore";
-import { Video } from 'expo-av';
+
 
 function HomeContent() {
     const router = useRouter();
@@ -21,9 +21,16 @@ function HomeContent() {
             }));
             setBibliotecas(bibliotecasList);
         });
-
+        const unsubscribeMessages = onSnapshot(collection(db, "messages"), (snapshot) => {
+            const messagesList = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setMessages(messagesList);
+        });
         return () => {
             unsubscribeBibliotecas();
+            unsubscribeMessages();
         };
     }, []);
 
@@ -32,11 +39,13 @@ function HomeContent() {
     const alongamentoEExercicios = bibliotecas.filter(b => b.categoria === "Alongamento e Exercícios");
 
     return (
-        <Box flex={1}  flexDirection="column">
-            <ScrollView mt={15}>
+         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+       
+            <ScrollView flex={1} mt={-2}>
                 {/* Cabeçalho */}
-                <Box>
+                <Box pt={6}>
                     <HStack padding={3} w="100%" alignItems="center" justifyContent="space-between">
+                        
                         <Box>
                             <Text fontSize="2xl" fontWeight="bold">MOVE</Text>
                         </Box>
@@ -44,13 +53,13 @@ function HomeContent() {
                             <Pressable>
                                 <Icon as={Feather} name="bell" size={7} marginRight={4} color="#000" />
                             </Pressable>
-                            <Avatar h={12} w={12} source={require('../../../assets/images/ani.jpeg')} />
+                            
                         </Box>
                     </HStack>
                 </Box>
 
                 {/* Seção de Aulas de Dança */}
-                <Box p={4}>
+                <Box p={3} pt={4}>
                     <Text fontSize="lg" fontWeight="bold" mb={4}>Aulas de Dança</Text>
                     {aulasDeDanca.length === 0 ? (
                         <Text>Nenhuma biblioteca encontrada.</Text>
@@ -92,7 +101,7 @@ function HomeContent() {
                 </Box>
 
                 {/* Seção de Alongamento e Exercícios */}
-                <Box p={4}>
+                <Box p={3} pt={-6}>
                     <Text fontSize="lg" fontWeight="bold" mb={4}>Alongamento e Exercícios</Text>
                     {alongamentoEExercicios.length === 0 ? (
                         <Text>Nenhuma biblioteca encontrada.</Text>
@@ -132,8 +141,36 @@ function HomeContent() {
                         />
                     )}
                 </Box>
+
+                <Box p={4} pt={4}>
+            <Text fontSize="lg" fontWeight="bold" mb={4}>Novidades da Semana</Text>
+            {messages.length === 0 ? (
+                <Text>Nenhuma mensagem encontrada.</Text>
+            ) : (
+        <FlatList
+            data={messages}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+                <Box 
+                    p={4} 
+                    mb={4} 
+                    bg="gray.100" 
+                    rounded="lg" 
+                    shadow={2}
+                >
+                    <Text fontWeight="bold" fontSize="md">{item.user_name}</Text>
+                    <Text>{item.message}</Text>
+                    <Text fontSize="sm" color="gray.500">{new Date(item.created_at.seconds * 1000).toLocaleString()}</Text>
+                </Box>
+            )}
+        />
+    )}
+</Box>
+
+
             </ScrollView>
-        </Box>
+        
+        </SafeAreaView>
     );
 }
 

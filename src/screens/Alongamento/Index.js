@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, VStack, FlatList, Image } from "native-base";
-import { TouchableOpacity, StyleSheet, StatusBar } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { db } from "../../../services/FirebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
 import { theme } from '../../styles/theme';
+import { router } from "expo-router"; // 👈 Importa o router
 
 export default function Alongamento() {
     const [alongamentoEExercicios, setAlongamentoEExercicios] = useState([]);
@@ -20,8 +21,7 @@ export default function Alongamento() {
     }, []);
 
     return (
-      
-        <Box flex={1} bg={theme.colors.background.primary} p={3} pt={-10}>
+        <Box flex={1} bg={theme.colors.background.primary} p={3} mt={8}>
             {/* Título e Subtítulo */}
             <VStack mb={5} alignItems="flex-start">
                 <Text fontSize="2xl" fontWeight="bold" color={theme.colors.text.primary}>Vamos Alongar</Text>
@@ -33,7 +33,7 @@ export default function Alongamento() {
                 data={alongamentoEExercicios}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => console.log("Biblioteca clicada:", item.id)}>
+                    <TouchableOpacity onPress={() => router.push(`/library-videos/${item.id}`)}>
                         <Box 
                             w="100%" 
                             h={200} 
@@ -70,7 +70,5 @@ export default function Alongamento() {
                 )}
             />
         </Box>
-       
     );
- 
 }

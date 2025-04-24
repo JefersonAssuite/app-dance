@@ -5,6 +5,7 @@ import { collection, query, where, getDocs, doc, getDoc } from "firebase/firesto
 import { db } from "../../../services/FirebaseConfig"; 
 import { useLocalSearchParams } from "expo-router"; // ✅ Pega o ID da URL
 
+
 export default function LibraryVideos() {
   const { id } = useLocalSearchParams(); // ✅ Captura o ID da URL
   const [videos, setVideos] = useState([]);
@@ -53,13 +54,12 @@ export default function LibraryVideos() {
   }, [id]);
 
   return (
-    <Box flex={1} p={4}>
+    <Box flex={1} p={4} mt={10}>
 
       <Text fontSize="2xl" fontWeight="bold" mb={2}>
         {biblioteca ? biblioteca.nome : "Carregando..."}
       </Text>
-      <Text fontSize="sm" color="gray.500" mb={4}>ID: {id}</Text>
-
+      
       {/* 🔹 Exibir lista de vídeos */}
       {videos.length === 0 ? (
         <Text>Nenhum vídeo encontrado.</Text>

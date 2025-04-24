@@ -35,7 +35,7 @@ export default function Danca() {
             style={{ flex: 1 }}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <Box flex={1} bg="gray.100" p={4}>
+                <Box flex={1} bg="gray.100" p={4} mt={8}>
                     {/* Título e Subtítulo */}
                     <VStack mb={5} alignItems="flex-start">
                         <Text fontSize="2xl" fontWeight="bold" color="black">Vamos Dançar</Text>
